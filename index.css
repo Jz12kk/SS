@@ -1,0 +1,87 @@
+<?php
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Navbar</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="navbar-header">
+            <img src="logosalles.png" width="76px" height="9%" onclick="toggleimage()" class="navbar-toggle">
+            <button type="button" class="navbar-toggle" id="navbar-toggle2" onclick="toggleMenu()">
+                <span class="menu-icon"></span>
+                <span class="menu-icon"></span>
+                <span class="menu-icon"></span>
+            </button>
+        </div>
+        <ul class="navbar-menu" id="navbar-menu">
+            <li><img src="logosalles.png" class="image-logo"></li>
+            <li><a href="index.php" id="backgroundblack">Home</a></li>
+            <li><a href="chat.php">Chat</a></li>
+            <?php
+            if ($user_id) { 
+            echo '<li><a href="perfil.php?id='.$user_id.'">Perfil</a></li>';
+            }
+            else {
+                echo '<li><a href="login.php">Logar</a></li>
+                <li><a href="register.php">Registrar</a></li>';
+            }
+            ?>
+            <li><a href="contato.php">Contate-nos</a></li>
+        </ul>
+    </nav>
+
+    <main>
+    <?php foreach ($casas as $casa) {
+          echo  '<form>
+                <a href="casas.php?id='.$casa['id'].'"> 
+                
+                <h2>'. $casa["dormitorios"]. ' Dormitórios e '.$casa["banheiros"].' banheiros</h2>
+                <p>'. $casa["endereco"]. '</p>';
+                $cards = array("Messi", "Ronaldo", "Ibrahimovic", "Ribery", "Robben", "Neymar", "Rooney", "Casillas", "Falcao", "Van Persie", "Hazard");
+
+                shuffle($cards);
+                foreach ($cards as $card) {
+                    echo "<img src='imagesDirectory/$card.jpg'> <br>";
+                }
+                echo '</a>
+                      </form>';
+}
+
+    if ($page_count > 1) {
+       echo '<nav class="pagination"> 
+       <ul>';
+           if ($page_number > 1) { 
+           echo '<li class="prev"> <a href="index.php?page='. $page_number - 1 . '">Anterior</a></li>';
+}
+for ($i = 1; $i <= $page_count; $i++) {
+    if ($i == 1 || $i == $page_count || abs ($i - $page_number) <=2) {
+    echo '<li>
+          <a href="index.php?page='. $i . '">'.$i.'</a>
+          </li>';
+}
+    elseif ($i == 2 && $page_number > 4) {
+        echo '<li>...</li>';              
+}
+    elseif ($i == $page_count - 1 && $page_number < $page_count - 3) {
+        echo '<li>...</li>';
+}
+}
+if ($page_number < $page_count) {
+    echo '<li class="next"> <a href="index.php?page='. $page_number + 1 . '">Próximo</a></li>';
+}
+echo '</ul>
+      </nav>';
+}
+?>
+    </main>
+
+    <footer>
+        <p>&copy; 2010 Salles Corretoria. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
